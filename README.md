@@ -165,6 +165,9 @@ The chatbot understands these keywords:
    - `PORT=5000`
    - `WHATSAPP_BROADCAST_NUMBER` (optional)
    - `WHATSAPP_GROUP_INVITE_LINK` (optional)
+   - Example `MONGODB_URI` format:
+     `mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/sapna-bangles?retryWrites=true&w=majority&appName=Cluster0`
+   - If password contains special characters, URL-encode it before saving.
 6. Copy your Render URL, example: `https://your-backend.onrender.com`
 
 ### Frontend (Vercel)
