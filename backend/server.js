@@ -20,14 +20,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/sapna-bangles', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
 // Routes
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
@@ -41,4 +33,21 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/', (req, res) => res.json({ message: 'Sapna Bangles API Running' }));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const startServer = async () => {
+  try {
+    await mongoose.connect(
+      process.env.MONGODB_URI || 'mongodb://localhost:27017/sapna-bangles',
+      {
+        serverSelectionTimeoutMS: 15000
+      }
+    );
+    console.log('MongoDB connected');
+
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  } catch (err) {
+    console.error('MongoDB connection error:', err.message);
+    process.exit(1);
+  }
+};
+
+startServer();
